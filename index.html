@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Covid-19 in France</title>
+        <link rel="stylesheet" href="./style/main.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <h2>Covid-19 data for {{ country | capitalize}}</h2>
+            <ul>
+                <li>Nombre total de cas: <b>{{ covidData.cases }}</b></li>
+                <li>Nombre de cas aujourd'hui: <b>{{ covidData.todayCases }}</b></li>
+                <li>Nombre d'infectés: <b>{{ covidData.active }}</b></li>
+                <li>Nombre de cas critiques: <b>{{ covidData.critical }}</b></li>
+                <li>Nombre de cas guéri: <b>{{ covidData.recovered }}</b></li>
+            </ul>
+        </div>
+        <canvas id="main"></canvas>
+    </body>
+    <script src="./src/app.js" charset="utf-8"></script>
+</html>
