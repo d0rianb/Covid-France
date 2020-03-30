@@ -5,7 +5,7 @@
 const COUNTRY = 'france'
 const API_URL = `https://coronavirus-19-api.herokuapp.com/countries/${COUNTRY}`
 
-const canvas = document.querySelector('#main')
+const canvas = document.querySelector('#chart')
 const ctx = canvas.getContext('2d')
 
 let app = new Vue({
@@ -19,8 +19,11 @@ let app = new Vue({
     filters: {
         capitalize(value) {
             if (!value) return ''
-            value = value.toString()
-            return value.charAt(0).toUpperCase() + value.slice(1)
+            return value.toString().charAt(0).toUpperCase() + value.slice(1)
+        },
+        int(value) {
+            if (!value) return ''
+            return value.toLocaleString()
         }
     },
     methods: {
@@ -46,10 +49,12 @@ fetch("https://pomber.github.io/covid19/timeseries.json", {
     })
     .then(res => res.json())
     .then(data => {
-        let labels = data.France.map(stat => stat.date)
-        let deaths = data.France.map(stat => stat.deaths)
-        let cases = data.France.map(stat => stat.confirmed)
-        let recovered = data.France.map(stat => stat.recovered)
+        moment.locale('fr')
+        let dataFrance = data.France.slice(15)
+        let labels = dataFrance.map(stat => moment(stat.date).format('DD MMMM'))
+        let deaths = dataFrance.map(stat => stat.deaths)
+        let cases = dataFrance.map(stat => stat.confirmed)
+        let recovered = dataFrance.map(stat => stat.recovered)
 
         let chart = new Chart(ctx, {
             type: 'line',
@@ -59,21 +64,45 @@ fetch("https://pomber.github.io/covid19/timeseries.json", {
                     label: 'Nombre de mort en France',
                     backgroundColor: 'transparent',
                     borderColor: '#9b0000',
-                    data: deaths
+                    data: deaths,
+                    radius: 3,
+                    pointStyle: 'cross',
+                    easing: 'easeOutQuad',
+                    animationDuration: 600,
                 }, {
                     label: 'Nombre de cas en France',
                     backgroundColor: 'transparent',
                     borderColor: '#304ffe',
-                    data: cases
+                    data: cases,
+                    radius: 3,
+                    pointStyle: 'cross',
+                    easing: 'easeOutQuad',
+                    animationDuration: 600,
                 }, {
                     label: 'Nombre de guéris en France',
                     backgroundColor: 'transparent',
                     borderColor: '#4caf50',
-                    data: recovered
+                    data: recovered,
+                    radius: 3,
+                    pointStyle: 'cross',
+                    easing: 'easeOutQuad',
+                    animationDuration: 600,
                 }]
             },
-            options: {}
+            options: {
+                aspectRatio: 1.8,
+                fill: false,
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 25,
+                        top: 0,
+                        bottom: 50
+                    }
+                }
+            }
         })
+        console.log(chart)
     })
     .catch(err => {
         console.log(err)

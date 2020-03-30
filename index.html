@@ -6,19 +6,22 @@
         <link rel="stylesheet" href="./style/main.css">
         <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
     </head>
     <body>
         <div id="app">
             <h2>Covid-19 data for {{ country | capitalize}}</h2>
             <ul>
-                <li>Nombre total de cas: <b>{{ covidData.cases }}</b></li>
-                <li>Nombre de cas aujourd'hui: <b>{{ covidData.todayCases }}</b></li>
-                <li>Nombre d'infectés: <b>{{ covidData.active }}</b></li>
-                <li>Nombre de cas critiques: <b>{{ covidData.critical }}</b></li>
-                <li>Nombre de cas guéri: <b>{{ covidData.recovered }}</b></li>
+                <li>Nombre total de cas: <b>{{ covidData.cases | int }}</b></li>
+                <li>Nombre de cas aujourd'hui: <b>{{ covidData.todayCases | int}}</b></li>
+                <li>Nombre d'infectés: <b>{{ covidData.active | int }}</b></li>
+                <li>Nombre de cas critiques: <b>{{ covidData.critical |int  }}</b></li>
+                <li>Nombre de cas guéris: <b>{{ covidData.recovered |int }}</b></li>
             </ul>
         </div>
-        <canvas id="main"></canvas>
+        <div class="chart-container">
+            <canvas id="chart"></canvas>
+        </div>
     </body>
     <script src="./src/app.js" charset="utf-8"></script>
 </html>
