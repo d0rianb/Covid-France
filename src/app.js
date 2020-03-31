@@ -61,21 +61,23 @@ fetch("https://pomber.github.io/covid19/timeseries.json", {
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Nombre de mort en France',
-                    backgroundColor: 'transparent',
-                    borderColor: '#9b0000',
-                    data: deaths,
-                    radius: 3,
-                    pointStyle: 'cross',
-                    easing: 'easeOutQuad',
-                    animationDuration: 600,
-                }, {
                     label: 'Nombre de cas en France',
                     backgroundColor: 'transparent',
                     borderColor: '#304ffe',
                     data: cases,
                     radius: 3,
                     pointStyle: 'cross',
+                    pointHitRadius: 6,
+                    easing: 'easeOutQuad',
+                    animationDuration: 600
+                }, {
+                    label: 'Nombre de mort en France',
+                    backgroundColor: 'transparent',
+                    borderColor: '#9b0000',
+                    data: deaths,
+                    radius: 3,
+                    pointStyle: 'cross',
+                    pointHitRadius: 6,
                     easing: 'easeOutQuad',
                     animationDuration: 600,
                 }, {
@@ -85,12 +87,13 @@ fetch("https://pomber.github.io/covid19/timeseries.json", {
                     data: recovered,
                     radius: 3,
                     pointStyle: 'cross',
+                    pointHitRadius: 6,
                     easing: 'easeOutQuad',
                     animationDuration: 600,
                 }]
             },
             options: {
-                aspectRatio: 1.8,
+                aspectRatio: 2.5,
                 fill: false,
                 layout: {
                     padding: {
@@ -99,6 +102,14 @@ fetch("https://pomber.github.io/covid19/timeseries.json", {
                         top: 0,
                         bottom: 50
                     }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            callback: value => value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+                        }
+                    }]
                 }
             }
         })
