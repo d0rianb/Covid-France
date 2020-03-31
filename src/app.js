@@ -1,9 +1,10 @@
 /**
  * Made by D0rian <dorian.beauchesne@icloud.com>
+ * Source of data : Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE)
  */
 
 const COUNTRY = 'france'
-const API_URL = `https://coronavirus-19-api.herokuapp.com/countries/${COUNTRY}`
+const API_URL = `https://pomber.github.io/covid19/timeseries.json`
 
 const canvas = document.querySelector('#chart')
 const ctx = canvas.getContext('2d')
@@ -11,10 +12,8 @@ const ctx = canvas.getContext('2d')
 let app = new Vue({
     el: '#app',
     created() {
+        moment.locale('fr')
         this.getData()
-            .then(data => {
-                this.covidData = data
-            })
     },
     filters: {
         capitalize(value) {
@@ -24,6 +23,24 @@ let app = new Vue({
         int(value) {
             if (!value) return ''
             return value.toLocaleString()
+        },
+        date(value) {
+            if (!value) return ''
+            return moment(value).format('DD MMMM YYYY')
+        }
+    },
+    data() {
+        return {
+            country: this.$options.filters.capitalize(COUNTRY),
+            covidData: {
+                date: '',
+                confirmed: 0,
+                deaths: 0,
+                recovered: 0,
+                todayCases: 0,
+                todayDeaths: 0,
+                todayRecovered: 0
+            }
         }
     },
     methods: {
@@ -31,15 +48,86 @@ let app = new Vue({
             const data = await fetch(API_URL, { "method": "GET" })
                 .then(response => response.json())
                 .then(data => {
-                    return data
+                    const countryData = data[this.country]
+                    const todayData = countryData[countryData.length - 1]
+                    const yesterdayData = countryData[countryData.length - 2]
+
+                    const diffData = {
+                        todayCases: todayData.confirmed - yesterdayData.confirmed,
+                        todayDeaths: todayData.deaths - yesterdayData.deaths,
+                        todayRecovered: todayData.recovered - yesterdayData.recovered
+                    }
+
+                    this.covidData = Object.assign(this.covidData, todayData, diffData)
+                    // this.covidData = Object.assign(this.covidData, todayData)
+                    this.createGraph(countryData)
                 })
-            return data
-        }
-    },
-    data() {
-        return {
-            country: COUNTRY,
-            covidData: {}
+        },
+        createGraph(countryData) {
+            const data = countryData.slice(15)
+            const labels = data.map(stat => moment(stat.date).format('DD MMMM'))
+            const deaths = data.map(stat => stat.deaths)
+            const cases = data.map(stat => stat.confirmed)
+            const recovered = data.map(stat => stat.recovered)
+
+            let chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Nombre de cas en France',
+                        backgroundColor: 'transparent',
+                        borderColor: '#304ffe',
+                        data: cases,
+                        radius: 3,
+                        pointStyle: 'cross',
+                        pointHitRadius: 6,
+                        easing: 'easeOutQuad',
+                        animationDuration: 600
+                    }, {
+                        label: 'Nombre de mort en France',
+                        backgroundColor: 'transparent',
+                        borderColor: '#9b0000',
+                        data: deaths,
+                        radius: 3,
+                        pointStyle: 'cross',
+                        pointHitRadius: 6,
+                        easing: 'easeOutQuad',
+                        animationDuration: 600,
+                    }, {
+                        label: 'Nombre de guéris en France',
+                        backgroundColor: 'transparent',
+                        borderColor: '#4caf50',
+                        data: recovered,
+                        radius: 3,
+                        pointStyle: 'cross',
+                        pointHitRadius: 6,
+                        easing: 'easeOutQuad',
+                        animationDuration: 600,
+                    }]
+                },
+                options: {
+                    aspectRatio: 2.5,
+                    fill: false,
+                    layout: {
+                        padding: {
+                            left: 10,
+                            right: 25,
+                            top: 0,
+                            bottom: 50
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                callback: value => value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+                            }
+                        }]
+                    }
+                }
+            })
+            console.log(chart)
         }
     }
 })
@@ -49,71 +137,7 @@ fetch("https://pomber.github.io/covid19/timeseries.json", {
     })
     .then(res => res.json())
     .then(data => {
-        moment.locale('fr')
-        let dataFrance = data.France.slice(15)
-        let labels = dataFrance.map(stat => moment(stat.date).format('DD MMMM'))
-        let deaths = dataFrance.map(stat => stat.deaths)
-        let cases = dataFrance.map(stat => stat.confirmed)
-        let recovered = dataFrance.map(stat => stat.recovered)
 
-        let chart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Nombre de cas en France',
-                    backgroundColor: 'transparent',
-                    borderColor: '#304ffe',
-                    data: cases,
-                    radius: 3,
-                    pointStyle: 'cross',
-                    pointHitRadius: 6,
-                    easing: 'easeOutQuad',
-                    animationDuration: 600
-                }, {
-                    label: 'Nombre de mort en France',
-                    backgroundColor: 'transparent',
-                    borderColor: '#9b0000',
-                    data: deaths,
-                    radius: 3,
-                    pointStyle: 'cross',
-                    pointHitRadius: 6,
-                    easing: 'easeOutQuad',
-                    animationDuration: 600,
-                }, {
-                    label: 'Nombre de guéris en France',
-                    backgroundColor: 'transparent',
-                    borderColor: '#4caf50',
-                    data: recovered,
-                    radius: 3,
-                    pointStyle: 'cross',
-                    pointHitRadius: 6,
-                    easing: 'easeOutQuad',
-                    animationDuration: 600,
-                }]
-            },
-            options: {
-                aspectRatio: 2.5,
-                fill: false,
-                layout: {
-                    padding: {
-                        left: 10,
-                        right: 25,
-                        top: 0,
-                        bottom: 50
-                    }
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                            callback: value => value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
-                        }
-                    }]
-                }
-            }
-        })
-        console.log(chart)
     })
     .catch(err => {
         console.log(err)

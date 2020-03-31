@@ -20,16 +20,27 @@ main .chart-container {
 }
 
 main table {
-  margin: 0.5em 0.5em 2em;
+  margin: 0.5em 1em 1em 0.5em;
   border-collapse: collapse;
   border-spacing: 0;
-  width: 21em;
+  width: 50%;
 }
-main table tr {
+
+main table th {
+  height: 0.8em;
+  font-size: 0.7em;
+  font-weight: 300;
+  background-color: #f1f1f182 !important;
+  text-align: left;
+  padding: 0 1.5em;
+  border: #e8e8e847 0.15px solid;
+}
+
+main table tr:not(.table-header) {
   transition: background-color 100ms ease;
   border: #e8e8e8c4 0.25px solid;
 }
-main table tr:nth-child(odd) {
+main table tr:nth-child(odd):not(.table-header) {
   background-color: #e8e8e875;
 }
 main table tr:nth-child(odd):hover {
@@ -46,8 +57,10 @@ main table tr td {
   padding: 0.35em 0.5em;
 }
 main table tr .key {
-  width: 16em;
+  width: 60%;
 }
 main table tr .value {
-  width: 30%;
+  width: 40%;
+  text-align: right;
+  font-weight: 500;
 }

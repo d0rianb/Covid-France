@@ -15,36 +15,36 @@
 
                 <table>
                 <tbody>
+                    <tr class="table-header">
+                        <th colspan="2">Données du {{ covidData.date | date }}</th>
+                    </tr>
                   <tr>
-                    <td class="key">Nombre total de cas</td>
-                    <td class="value">{{ covidData.cases | int }}</td>
+                    <td class="key">Nombre de cas confirmés</td>
+                    <td class="value">{{ covidData.confirmed | int }}</td>
+                  </tr>
+                  <tr>
+                    <td class="key">Nombre total de mort</td>
+                    <td class="value">{{ covidData.deaths | int }}</td>
+                  </tr>
+                  <tr>
+                    <td class="key">Nombre total de cas guéris</td>
+                    <td class="value">{{ covidData.recovered | int }}</td>
                   </tr>
                   <tr>
                     <td class="key">Nombre de cas aujourd'hui</td>
                     <td class="value">{{ covidData.todayCases | int}}</td>
                   </tr>
                   <tr>
-                    <td class="key">Nombre d'infectés</td>
-                    <td class="value">{{ covidData.active | int }}</td>
+                    <td class="key">Nombre de mort aujourd'hui</td>
+                    <td class="value">{{ covidData.todayDeaths | int }}</td>
                   </tr>
                   <tr>
-                    <td class="key">Nombre de cas critiques</td>
-                    <td class="value">{{ covidData.critical | int }}</td>
-                  </tr>
-                  <tr>
-                    <td class="key">Nombre de cas guéris</td>
-                    <td class="value">{{ covidData.recovered | int }}</td>
+                    <td class="key">Nombre de cas guéris aujourd'hui</td>
+                    <td class="value">{{ covidData.todayRecovered | int }}</td>
                   </tr>
                 </tbody>
               </table>
 
-                <!-- <ul>
-                    <li>Nombre total de cas: <b>{{ covidData.cases | int }}</b></li>
-                    <li>Nombre de cas aujourd'hui: <b>{{ covidData.todayCases | int}}</b></li>
-                    <li>Nombre d'infectés: <b>{{ covidData.active | int }}</b></li>
-                    <li>Nombre de cas critiques: <b>{{ covidData.critical |int  }}</b></li>
-                    <li>Nombre de cas guéris: <b>{{ covidData.recovered |int }}</b></li>
-                </ul> -->
             </div>
             <div class="chart-container">
                 <canvas id="chart"></canvas>
