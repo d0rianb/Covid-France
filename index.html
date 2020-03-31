@@ -9,19 +9,47 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
     </head>
     <body>
-        <div id="app">
-            <h2>Covid-19 data for {{ country | capitalize}}</h2>
-            <ul>
-                <li>Nombre total de cas: <b>{{ covidData.cases | int }}</b></li>
-                <li>Nombre de cas aujourd'hui: <b>{{ covidData.todayCases | int}}</b></li>
-                <li>Nombre d'infectés: <b>{{ covidData.active | int }}</b></li>
-                <li>Nombre de cas critiques: <b>{{ covidData.critical |int  }}</b></li>
-                <li>Nombre de cas guéris: <b>{{ covidData.recovered |int }}</b></li>
-            </ul>
-        </div>
-        <div class="chart-container">
-            <canvas id="chart"></canvas>
-        </div>
+        <main>
+            <div id="app">
+                <h2>Covid-19 data for {{ country | capitalize}}</h2>
+
+                <table>
+                <tbody>
+                  <tr>
+                    <td class="key">Nombre total de cas</td>
+                    <td class="value">{{ covidData.cases | int }}</td>
+                  </tr>
+                  <tr>
+                    <td class="key">Nombre de cas aujourd'hui</td>
+                    <td class="value">{{ covidData.todayCases | int}}</td>
+                  </tr>
+                  <tr>
+                    <td class="key">Nombre d'infectés</td>
+                    <td class="value">{{ covidData.active | int }}</td>
+                  </tr>
+                  <tr>
+                    <td class="key">Nombre de cas critiques</td>
+                    <td class="value">{{ covidData.critical | int }}</td>
+                  </tr>
+                  <tr>
+                    <td class="key">Nombre de cas guéris</td>
+                    <td class="value">{{ covidData.recovered | int }}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+                <!-- <ul>
+                    <li>Nombre total de cas: <b>{{ covidData.cases | int }}</b></li>
+                    <li>Nombre de cas aujourd'hui: <b>{{ covidData.todayCases | int}}</b></li>
+                    <li>Nombre d'infectés: <b>{{ covidData.active | int }}</b></li>
+                    <li>Nombre de cas critiques: <b>{{ covidData.critical |int  }}</b></li>
+                    <li>Nombre de cas guéris: <b>{{ covidData.recovered |int }}</b></li>
+                </ul> -->
+            </div>
+            <div class="chart-container">
+                <canvas id="chart"></canvas>
+            </div>
+        </main>
     </body>
     <script src="./src/app.js" charset="utf-8"></script>
 </html>
