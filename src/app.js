@@ -3,6 +3,12 @@
  * Source of data : Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE)
  */
 
+
+// TODO:
+// - Dropdown to select country
+// - Separator in table
+// - Pourcentage de la population du pays
+
 const COUNTRY = 'france'
 const API_URL = `https://pomber.github.io/covid19/timeseries.json`
 
@@ -59,7 +65,6 @@ let app = new Vue({
                     }
 
                     this.covidData = Object.assign(this.covidData, todayData, diffData)
-                    // this.covidData = Object.assign(this.covidData, todayData)
                     this.createGraph(countryData)
                 })
         },
@@ -117,6 +122,9 @@ let app = new Vue({
                             bottom: 50
                         }
                     },
+                    tooltips: {
+                        mode: 'index'
+                    },
                     scales: {
                         yAxes: [{
                             ticks: {
@@ -127,18 +135,6 @@ let app = new Vue({
                     }
                 }
             })
-            console.log(chart)
         }
     }
 })
-
-fetch("https://pomber.github.io/covid19/timeseries.json", {
-        "method": "GET",
-    })
-    .then(res => res.json())
-    .then(data => {
-
-    })
-    .catch(err => {
-        console.log(err)
-    })

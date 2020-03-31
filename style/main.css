@@ -17,6 +17,8 @@ main {
 
 main .chart-container {
   margin: 1em 2em;
+  min-width: 500px;
+  max-width: 2000px;
 }
 
 main table {
@@ -43,16 +45,7 @@ main table tr:not(.table-header) {
 main table tr:nth-child(odd):not(.table-header) {
   background-color: #e8e8e875;
 }
-main table tr:nth-child(odd):hover {
-  background-color: #e8e8e8c7;
-}
-main table tr:nth-child(even):hover {
-  background-color: #cecece00;
-}
-main table tr:hover kbd {
-  border-color: #bfbfbf;
-  background-color: #fcfcfc;
-}
+
 main table tr td {
   padding: 0.35em 0.5em;
 }
@@ -63,4 +56,10 @@ main table tr .value {
   width: 40%;
   text-align: right;
   font-weight: 500;
+}
+
+@media screen and (max-width: 800px) {
+  main table {
+    width: 90%;
+  }
 }
