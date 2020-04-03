@@ -114,6 +114,23 @@ main table tr .value {
   font-weight: 500;
 }
 
+input[type="range"] {
+  -webkit-appearance: none;
+  position: relative;
+  top: -1px;
+  height: 0.5em;
+  padding: 0;
+  outline: none;
+  color: #0a5377;
+  opacity: 0.8;
+  background: #dedede;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: opacity 0.2s;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
 footer {
   display: flex;
   justify-content: center;
