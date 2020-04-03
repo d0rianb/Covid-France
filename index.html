@@ -16,47 +16,47 @@
                     <h1>Covid-19 data for </h1>
                     <label>
                         <div class="custom-select">
-                        <select name="country" v-model="country" class="select-country">
-                            <option v-for="country in countries" :value="country">{{ country }}</option>
-                        </select>
+                            <select name="country" v-model="country" class="select-country" @change="getData">
+                                <option v-for="country in countries" :value="country">{{ country }}</option>
+                            </select>
+                        </div>
                      </label>
                  </div>
-                </div>
 
                 <table>
-                <tbody>
-                    <tr class="table-header">
-                        <th colspan="2">Données du {{ covidData.date | date }}</th>
-                    </tr>
-                    <tr class="separator"></tr>
-                  <tr>
-                    <td class="key">Nombre de cas confirmés</td>
-                    <td class="value">{{ covidData.confirmed | int }}</td>
-                  </tr>
-                  <tr>
-                    <td class="key">Nombre total de mort</td>
-                    <td class="value">{{ covidData.deaths | int }}</td>
-                  </tr>
-                  <tr>
-                    <td class="key">Nombre total de cas guéris</td>
-                    <td class="value">{{ covidData.recovered | int }}</td>
-                  </tr>
-                  <tr class="separator"></tr>
-                  <tr class="separator"></tr>
-                  <tr>
-                    <td class="key">Nombre de cas aujourd'hui</td>
-                    <td class="value">{{ covidData.todayCases | int}}</td>
-                  </tr>
-                  <tr>
-                    <td class="key">Nombre de mort aujourd'hui</td>
-                    <td class="value">{{ covidData.todayDeaths | int }}</td>
-                  </tr>
-                  <tr>
-                    <td class="key">Nombre de cas guéris aujourd'hui</td>
-                    <td class="value">{{ covidData.todayRecovered | int }}</td>
-                  </tr>
-                </tbody>
-              </table>
+                    <tbody>
+                        <tr class="table-header">
+                            <th colspan="2">Données du {{ covidData.date | date }}</th>
+                        </tr>
+                        <tr class="separator"></tr>
+                      <tr>
+                        <td class="key">Nombre de cas confirmés</td>
+                        <td class="value">{{ covidData.confirmed | int }}</td>
+                      </tr>
+                      <tr>
+                        <td class="key">Nombre total de mort</td>
+                        <td class="value">{{ covidData.deaths | int }}</td>
+                      </tr>
+                      <tr>
+                        <td class="key">Nombre total de cas guéris</td>
+                        <td class="value">{{ covidData.recovered | int }}</td>
+                      </tr>
+                      <tr class="separator"></tr>
+                      <tr class="separator"></tr>
+                      <tr>
+                        <td class="key">Nombre de cas aujourd'hui</td>
+                        <td class="value">{{ covidData.todayCases | int}}</td>
+                      </tr>
+                      <tr>
+                        <td class="key">Nombre de mort aujourd'hui</td>
+                        <td class="value">{{ covidData.todayDeaths | int }}</td>
+                      </tr>
+                      <tr>
+                        <td class="key">Nombre de cas guéris aujourd'hui</td>
+                        <td class="value">{{ covidData.todayRecovered | int }}</td>
+                      </tr>
+                    </tbody>
+                </table>
 
             </div>
             <div class="chart-container">

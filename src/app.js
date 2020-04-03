@@ -5,6 +5,7 @@
 
 // TODO:
 // - Pourcentage de la population du pays
+// - Graph scale options
 
 const API_URL = `https://pomber.github.io/covid19/timeseries.json`
 
@@ -133,6 +134,10 @@ let app = new Vue({
                     }
                 }
             })
+        },
+
+        updateGraph(e) {
+
         }
     }
 })
