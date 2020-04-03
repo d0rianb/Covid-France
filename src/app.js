@@ -5,7 +5,6 @@
 
 // TODO:
 // - Pourcentage de la population du pays
-// - Graph scale options
 
 const API_URL = `https://pomber.github.io/covid19/timeseries.json`
 
@@ -36,6 +35,10 @@ let app = new Vue({
         return {
             country: 'France',
             countries: [],
+            data: {},
+            chart: {},
+            dayScale: 30,
+            maxDaysScale: 0,
             covidData: {
                 date: '',
                 confirmed: 0,
@@ -48,12 +51,13 @@ let app = new Vue({
         }
     },
     methods: {
-        getData: async function() {
+        getData: async function(e) {
             const data = await fetch(API_URL, { "method": "GET" })
                 .then(response => response.json())
                 .then(data => {
-                    this.countries = Object.keys(data)
-                    const countryData = data[this.country]
+                    this.data = data
+                    this.countries = Object.keys(this.data)
+                    const countryData = this.data[this.country]
                     const todayData = countryData[countryData.length - 1]
                     const yesterdayData = countryData[countryData.length - 2]
 
@@ -64,17 +68,19 @@ let app = new Vue({
                     }
 
                     this.covidData = Object.assign(this.covidData, todayData, diffData)
-                    this.createGraph(countryData)
+                    this.maxDaysScale = countryData.length
+                    this.createGraph(true)
                 })
         },
-        createGraph(countryData) {
-            const data = countryData.slice(15)
+        createGraph(animate = false) {
+            const countryData = this.data[this.country]
+            const data = countryData.slice(this.maxDaysScale - this.dayScale)
             const labels = data.map(stat => moment(stat.date).format('DD MMMM'))
             const deaths = data.map(stat => stat.deaths)
             const cases = data.map(stat => stat.confirmed)
             const recovered = data.map(stat => stat.recovered)
 
-            let chart = new Chart(ctx, {
+            this.chart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
@@ -85,9 +91,7 @@ let app = new Vue({
                         data: cases,
                         radius: 3,
                         pointStyle: 'cross',
-                        pointHitRadius: 6,
-                        easing: 'easeOutQuad',
-                        animationDuration: 600
+                        pointHitRadius: 6
                     }, {
                         label: 'Nombre de mort en France',
                         backgroundColor: 'transparent',
@@ -95,9 +99,7 @@ let app = new Vue({
                         data: deaths,
                         radius: 3,
                         pointStyle: 'cross',
-                        pointHitRadius: 6,
-                        easing: 'easeOutQuad',
-                        animationDuration: 600,
+                        pointHitRadius: 6
                     }, {
                         label: 'Nombre de guéris en France',
                         backgroundColor: 'transparent',
@@ -105,14 +107,16 @@ let app = new Vue({
                         data: recovered,
                         radius: 3,
                         pointStyle: 'cross',
-                        pointHitRadius: 6,
-                        easing: 'easeOutQuad',
-                        animationDuration: 600,
+                        pointHitRadius: 6
                     }]
                 },
                 options: {
                     aspectRatio: 2.5,
                     fill: false,
+                    animation: {
+                        duration: animate ? 600 : 0,
+                        easing: 'easeOutQuad'
+                    },
                     layout: {
                         padding: {
                             left: 10,
@@ -137,7 +141,7 @@ let app = new Vue({
         },
 
         updateGraph(e) {
-
+            this.createGraph(false)
         }
     }
 })

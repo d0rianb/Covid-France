@@ -39,11 +39,12 @@ select {
   cursor: pointer;
   font-size: 1.1em;
 }
-label {
+
+.header label {
   position: relative;
 }
 
-label:after {
+.header label:after {
   position: absolute;
   content: "<>";
   color: #666;
