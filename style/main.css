@@ -11,6 +11,52 @@ body {
   font-size: 2vh;
 }
 
+.header {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.custom-select {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  margin: 0 0.5em;
+}
+
+select {
+  width: 140px;
+  height: 35px;
+  padding: 0.25em 0.5em 0;
+  border-radius: 4px;
+  border: none;
+  outline: none;
+  display: inline-block;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  font-size: 1.1em;
+}
+label {
+  position: relative;
+}
+
+label:after {
+  position: absolute;
+  content: "<>";
+  color: #666;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+  right: 8px;
+  top: 6px;
+  padding: 0 0 2px;
+  border-bottom: 1px solid #ddd;
+  pointer-events: none;
+}
+
 main {
   margin: 1em;
 }
@@ -28,6 +74,10 @@ main table {
   width: 50%;
 }
 
+.separator {
+  height: 0.25em;
+}
+
 main table th {
   height: 0.8em;
   font-size: 0.7em;
@@ -42,20 +92,31 @@ main table tr:not(.table-header) {
   transition: background-color 100ms ease;
   border: #e8e8e8c4 0.25px solid;
 }
+
 main table tr:nth-child(odd):not(.table-header) {
   background-color: #e8e8e875;
 }
 
-main table tr td {
+main table tr td:not(.separator) {
   padding: 0.35em 0.5em;
 }
+
 main table tr .key {
   width: 60%;
 }
+
 main table tr .value {
   width: 40%;
   text-align: right;
   font-weight: 500;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  font-size: 0.9em;
+  margin: 0.5em;
+  color: rgba(100, 100, 100, 0.9);
 }
 
 @media screen and (max-width: 800px) {

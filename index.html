@@ -12,13 +12,23 @@
     <body>
         <main>
             <div id="app">
-                <h2>Covid-19 data for {{ country | capitalize}}</h2>
+                <div class="header">
+                    <h1>Covid-19 data for </h1>
+                    <label>
+                        <div class="custom-select">
+                        <select name="country" v-model="country" class="select-country">
+                            <option v-for="country in countries" :value="country">{{ country }}</option>
+                        </select>
+                     </label>
+                 </div>
+                </div>
 
                 <table>
                 <tbody>
                     <tr class="table-header">
                         <th colspan="2">Données du {{ covidData.date | date }}</th>
                     </tr>
+                    <tr class="separator"></tr>
                   <tr>
                     <td class="key">Nombre de cas confirmés</td>
                     <td class="value">{{ covidData.confirmed | int }}</td>
@@ -31,6 +41,8 @@
                     <td class="key">Nombre total de cas guéris</td>
                     <td class="value">{{ covidData.recovered | int }}</td>
                   </tr>
+                  <tr class="separator"></tr>
+                  <tr class="separator"></tr>
                   <tr>
                     <td class="key">Nombre de cas aujourd'hui</td>
                     <td class="value">{{ covidData.todayCases | int}}</td>
@@ -51,6 +63,7 @@
                 <canvas id="chart"></canvas>
             </div>
         </main>
+        <footer>Source of data : Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE)</footer>
     </body>
     <script src="./src/app.js" charset="utf-8"></script>
 </html>
