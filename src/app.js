@@ -77,15 +77,8 @@ let app = new Vue({
 
         },
         createGraph() {
-            if (this.chart) {
-                this.chart.destroy()
-            }
-            const countryData = this.data[this.country]
-            const data = countryData.slice(this.maxDaysScale - this.dayScale)
-            const labels = data.map(stat => moment(stat.date).format('DD MMMM'))
-            const deaths = data.map(stat => stat.deaths)
-            const cases = data.map(stat => stat.confirmed - stat.recovered)
-            const recovered = data.map(stat => stat.recovered)
+            const { labels, cases, deaths, recovered } = this.getCountryDataset()
+            if (this.chart) this.chart.destroy()
 
             this.chart = new Chart(ctx, {
                 type: 'line',
@@ -142,13 +135,17 @@ let app = new Vue({
             this.getCountryInfo()
             this.updateGraph()
         },
-        updateGraph(e) {
+        getCountryDataset() {
             const countryData = this.data[this.country]
             const data = countryData.slice(this.maxDaysScale - this.dayScale)
             const labels = data.map(stat => moment(stat.date).format('DD MMMM'))
             const deaths = data.map(stat => stat.deaths)
             const cases = data.map(stat => stat.confirmed - stat.recovered)
             const recovered = data.map(stat => stat.recovered)
+            return { labels, cases, deaths, recovered }
+        },
+        updateGraph(e) {
+            const { labels, cases, deaths, recovered } = this.getCountryDataset()
             this.chart.data.labels = labels
             this.chart.data.datasets[0].data = cases
             this.chart.data.datasets[1].data = deaths
