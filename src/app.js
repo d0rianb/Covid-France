@@ -35,8 +35,8 @@ let app = new Vue({
         return {
             country: 'France',
             countries: [],
-            data: {},
-            chart: {},
+            data: undefined,
+            chart: undefined,
             dayScale: 30,
             maxDaysScale: 0,
             covidData: {
@@ -69,15 +69,18 @@ let app = new Vue({
 
                     this.covidData = Object.assign(this.covidData, todayData, diffData)
                     this.maxDaysScale = countryData.length
-                    this.createGraph(true)
+                    this.createGraph()
                 })
         },
-        createGraph(animate = false) {
+        createGraph() {
+            if (this.chart) {
+                this.chart.destroy()
+            }
             const countryData = this.data[this.country]
             const data = countryData.slice(this.maxDaysScale - this.dayScale)
             const labels = data.map(stat => moment(stat.date).format('DD MMMM'))
             const deaths = data.map(stat => stat.deaths)
-            const cases = data.map(stat => stat.confirmed)
+            const cases = data.map(stat => stat.confirmed - stat.recovered)
             const recovered = data.map(stat => stat.recovered)
 
             this.chart = new Chart(ctx, {
@@ -114,16 +117,8 @@ let app = new Vue({
                     aspectRatio: 2.5,
                     fill: false,
                     animation: {
-                        duration: animate ? 600 : 0,
+                        duration: 600,
                         easing: 'easeOutQuad'
-                    },
-                    layout: {
-                        padding: {
-                            left: 10,
-                            right: 25,
-                            top: 0,
-                            bottom: 50
-                        }
                     },
                     tooltips: {
                         mode: 'point'
@@ -141,7 +136,18 @@ let app = new Vue({
         },
 
         updateGraph(e) {
-            this.createGraph(false)
+            const countryData = this.data[this.country]
+            const data = countryData.slice(this.maxDaysScale - this.dayScale)
+            const labels = data.map(stat => moment(stat.date).format('DD MMMM'))
+            const deaths = data.map(stat => stat.deaths)
+            const cases = data.map(stat => stat.confirmed - stat.recovered)
+            const recovered = data.map(stat => stat.recovered)
+            this.chart.data.labels = labels
+            this.chart.data.datasets[0].data = cases
+            this.chart.data.datasets[1].data = deaths
+            this.chart.data.datasets[2].data = recovered
+            this.chart.options.animation.duration = 0
+            this.chart.update()
         }
     }
 })
