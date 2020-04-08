@@ -37,7 +37,7 @@ let app = new Vue({
             countries: [],
             data: undefined,
             chart: undefined,
-            dayScale: 30,
+            dayScale: 40,
             maxDaysScale: 0,
             covidData: {
                 date: '',
