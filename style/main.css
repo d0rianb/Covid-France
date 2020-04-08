@@ -5,10 +5,14 @@
 }
 
 body {
+  top: 0;
+  position: absolute;
   margin: 0;
   font-family: "Roboto";
   font-weight: 400;
   font-size: 2vh;
+  width: 100vw;
+  max-height: calc(100vh + 1px);
 }
 
 .header {

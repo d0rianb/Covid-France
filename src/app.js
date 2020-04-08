@@ -51,26 +51,30 @@ let app = new Vue({
         }
     },
     methods: {
-        getData: async function(e) {
+        async getData(e) {
             const data = await fetch(API_URL, { "method": "GET" })
                 .then(response => response.json())
                 .then(data => {
                     this.data = data
                     this.countries = Object.keys(this.data)
-                    const countryData = this.data[this.country]
-                    const todayData = countryData[countryData.length - 1]
-                    const yesterdayData = countryData[countryData.length - 2]
-
-                    const diffData = {
-                        todayCases: todayData.confirmed - yesterdayData.confirmed,
-                        todayDeaths: todayData.deaths - yesterdayData.deaths,
-                        todayRecovered: todayData.recovered - yesterdayData.recovered
-                    }
-
-                    this.covidData = Object.assign(this.covidData, todayData, diffData)
-                    this.maxDaysScale = countryData.length
-                    this.createGraph()
                 })
+            this.getCountryInfo()
+            this.createGraph()
+        },
+        getCountryInfo() {
+            const countryData = this.data[this.country]
+            const todayData = countryData[countryData.length - 1]
+            const yesterdayData = countryData[countryData.length - 2]
+
+            const diffData = {
+                todayCases: todayData.confirmed - yesterdayData.confirmed,
+                todayDeaths: todayData.deaths - yesterdayData.deaths,
+                todayRecovered: todayData.recovered - yesterdayData.recovered
+            }
+
+            this.covidData = Object.assign(this.covidData, todayData, diffData)
+            this.maxDaysScale = countryData.length
+
         },
         createGraph() {
             if (this.chart) {
@@ -88,7 +92,7 @@ let app = new Vue({
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Nombre de cas en France',
+                        label: `Nombre de cas en ${this.country}`,
                         backgroundColor: 'transparent',
                         borderColor: '#304ffe',
                         data: cases,
@@ -96,7 +100,7 @@ let app = new Vue({
                         pointStyle: 'cross',
                         pointHitRadius: 6
                     }, {
-                        label: 'Nombre de mort en France',
+                        label: `Nombre de mort en ${this.country}`,
                         backgroundColor: 'transparent',
                         borderColor: '#9b0000',
                         data: deaths,
@@ -104,7 +108,7 @@ let app = new Vue({
                         pointStyle: 'cross',
                         pointHitRadius: 6
                     }, {
-                        label: 'Nombre de guéris en France',
+                        label: `Nombre de guéris en ${this.country}`,
                         backgroundColor: 'transparent',
                         borderColor: '#4caf50',
                         data: recovered,
@@ -134,7 +138,10 @@ let app = new Vue({
                 }
             })
         },
-
+        updateCountry() {
+            this.getCountryInfo()
+            this.updateGraph()
+        },
         updateGraph(e) {
             const countryData = this.data[this.country]
             const data = countryData.slice(this.maxDaysScale - this.dayScale)

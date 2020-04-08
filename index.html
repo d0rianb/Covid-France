@@ -18,7 +18,7 @@
         <h1>Covid-19 data for </h1>
         <label>
           <div class="custom-select">
-            <select name="country" v-model="country" class="select-country" @change="getData">
+            <select name="country" v-model="country" class="select-country" @change="updateCountry">
               <option v-for="country in countries" :value="country">{{ country }}</option>
             </select>
           </div>
