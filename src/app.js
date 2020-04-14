@@ -150,6 +150,9 @@ let app = new Vue({
             this.chart.data.datasets[0].data = cases
             this.chart.data.datasets[1].data = deaths
             this.chart.data.datasets[2].data = recovered
+            for (let i = 0; i < 3; i++) {
+                this.chart.data.datasets[i].label = `Nombre de mort en ${this.country}`
+            }
             this.chart.options.animation.duration = 0
             this.chart.update()
         }
