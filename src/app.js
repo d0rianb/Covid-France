@@ -148,11 +148,11 @@ let app = new Vue({
             const { labels, cases, deaths, recovered } = this.getCountryDataset()
             this.chart.data.labels = labels
             this.chart.data.datasets[0].data = cases
+            this.chart.data.datasets[0].label = `Nombre de cas en ${this.country}`
             this.chart.data.datasets[1].data = deaths
+            this.chart.data.datasets[1].label = `Nombre de mort en ${this.country}`
             this.chart.data.datasets[2].data = recovered
-            for (let i = 0; i < 3; i++) {
-                this.chart.data.datasets[i].label = `Nombre de mort en ${this.country}`
-            }
+            this.chart.data.datasets[2].label = `Nombre de guéris en ${this.country}`
             this.chart.options.animation.duration = 0
             this.chart.update()
         }
