@@ -85,7 +85,7 @@ let app = new Vue({
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: `Nombre de cas en ${this.country}`,
+                        label: `Nombre de cas actifs en ${this.country}`,
                         backgroundColor: 'transparent',
                         borderColor: '#304ffe',
                         data: cases,
@@ -140,7 +140,7 @@ let app = new Vue({
             const data = countryData.slice(this.maxDaysScale - this.dayScale)
             const labels = data.map(stat => moment(stat.date).format('DD MMMM'))
             const deaths = data.map(stat => stat.deaths)
-            const cases = data.map(stat => stat.confirmed - stat.recovered)
+            const cases = data.map(stat => stat.confirmed - stat.recovered - stat.deaths)
             const recovered = data.map(stat => stat.recovered)
             return { labels, cases, deaths, recovered }
         },
@@ -148,7 +148,7 @@ let app = new Vue({
             const { labels, cases, deaths, recovered } = this.getCountryDataset()
             this.chart.data.labels = labels
             this.chart.data.datasets[0].data = cases
-            this.chart.data.datasets[0].label = `Nombre de cas en ${this.country}`
+            this.chart.data.datasets[0].label = `Nombre de cas actifs en ${this.country}`
             this.chart.data.datasets[1].data = deaths
             this.chart.data.datasets[1].label = `Nombre de mort en ${this.country}`
             this.chart.data.datasets[2].data = recovered
