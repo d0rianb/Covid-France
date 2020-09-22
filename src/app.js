@@ -37,7 +37,7 @@ let app = new Vue({
             countries: [],
             data: undefined,
             chart: undefined,
-            dayScale: 40,
+            dayScale: 200,
             maxDaysScale: 0,
             covidData: {
                 date: '',
@@ -74,6 +74,7 @@ let app = new Vue({
 
             this.covidData = Object.assign(this.covidData, todayData, diffData)
             this.maxDaysScale = countryData.length
+            this.dayScale = this.maxDaysScale
 
         },
         createGraph() {
