@@ -9,3 +9,7 @@ The website accessible at [this url](https://www.d0rianb.github.io/Covid-France)
 ![screenshot](docs/images/screenshot.png)
 
 All the data come from the well liked **Johns Hopkins** of the _University Center for Systems Science and Engineering_ (_JHU CSSE_), and the API is provied by [Pomber](https://pomber.github.io/covid19/).
+
+* * *
+
+2020 &copy; Dorian Beauchesne
